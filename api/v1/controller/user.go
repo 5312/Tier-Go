@@ -1,0 +1,269 @@
+package controller
+
+import (
+	"net/http"
+	"strconv"
+	"tier_up/app/internal/service"
+
+	"github.com/gin-gonic/gin"
+)
+
+// UserController 用户控制器
+type UserController struct {
+	UserService *service.UserService
+}
+
+// PasswordRequest 密码更新请求
+type PasswordRequest struct {
+	OldPassword string `json:"old_password" binding:"required"`
+	NewPassword string `json:"new_password" binding:"required,min=6,max=100"`
+}
+
+// RoleRequest 角色请求
+type RoleRequest struct {
+	RoleID uint `json:"role_id" binding:"required"`
+}
+
+// NewUserController 创建用户控制器
+func NewUserController(userService *service.UserService) *UserController {
+	return &UserController{
+		UserService: userService,
+	}
+}
+
+// Register 用户注册
+// @Summary 用户注册
+// @Description 注册新用户
+// @Tags 用户管理
+// @Accept json
+// @Produce json
+// @Param data body service.RegisterRequest true "用户注册信息"
+// @Success 200 {object} map[string]interface{} "注册成功"
+// @Failure 400 {object} map[string]interface{} "参数错误"
+// @Failure 500 {object} map[string]interface{} "注册失败"
+// @Router /register [post]
+func (c *UserController) Register(ctx *gin.Context) {
+	var req service.RegisterRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "参数错误: " + err.Error()})
+		return
+	}
+
+	user, err := c.UserService.Register(req)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "注册失败: " + err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "注册成功", "data": user})
+}
+
+// Login 用户登录
+// @Summary 用户登录
+// @Description 用户登录获取令牌
+// @Tags 用户管理
+// @Accept json
+// @Produce json
+// @Param data body service.LoginRequest true "用户登录信息"
+// @Success 200 {object} map[string]interface{} "登录成功，返回token"
+// @Failure 400 {object} map[string]interface{} "参数错误"
+// @Failure 401 {object} map[string]interface{} "登录失败"
+// @Router /login [post]
+func (c *UserController) Login(ctx *gin.Context) {
+	var req service.LoginRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "参数错误: " + err.Error()})
+		return
+	}
+
+	token, user, err := c.UserService.Login(req)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"code": 401, "message": "登录失败: " + err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"code":    200,
+		"message": "登录成功",
+		"data": gin.H{
+			"token": token,
+			"user":  user,
+		},
+	})
+}
+
+// GetUserInfo 获取用户信息
+// @Summary 获取当前用户信息
+// @Description 获取已登录用户的详细信息
+// @Tags 用户管理
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} map[string]interface{} "用户信息"
+// @Failure 401 {object} map[string]interface{} "未认证"
+// @Failure 500 {object} map[string]interface{} "获取用户信息失败"
+// @Router /user/info [get]
+func (c *UserController) GetUserInfo(ctx *gin.Context) {
+	userIDValue, exists := ctx.Get("userID")
+	if !exists {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"code": 401, "message": "未认证"})
+		return
+	}
+
+	userID := userIDValue.(uint)
+	user, err := c.UserService.GetUserByID(userID)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "获取用户信息失败: " + err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "获取用户信息成功", "data": user})
+}
+
+// UpdateUserInfo 更新用户信息
+// @Summary 更新当前用户信息
+// @Description 更新已登录用户的信息
+// @Tags 用户管理
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param data body model.User true "用户信息"
+// @Success 200 {object} map[string]interface{} "更新成功"
+// @Failure 400 {object} map[string]interface{} "参数错误"
+// @Failure 401 {object} map[string]interface{} "未认证"
+// @Failure 500 {object} map[string]interface{} "更新用户信息失败"
+// @Router /user/info [put]
+func (c *UserController) UpdateUserInfo(ctx *gin.Context) {
+	userIDValue, exists := ctx.Get("userID")
+	if !exists {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"code": 401, "message": "未认证"})
+		return
+	}
+
+	userID := userIDValue.(uint)
+	user, err := c.UserService.GetUserByID(userID)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "获取用户信息失败: " + err.Error()})
+		return
+	}
+
+	// 只允许更新部分字段
+	if err := ctx.ShouldBindJSON(user); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "参数错误: " + err.Error()})
+		return
+	}
+
+	// 确保ID不变
+	user.ID = userID
+
+	if err := c.UserService.UpdateUser(user); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "更新用户信息失败: " + err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "更新用户信息成功", "data": user})
+}
+
+// ChangePassword 修改密码
+// @Summary 修改密码
+// @Description 修改当前用户的密码
+// @Tags 用户管理
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param data body PasswordRequest true "密码信息"
+// @Success 200 {object} map[string]interface{} "修改成功"
+// @Failure 400 {object} map[string]interface{} "参数错误"
+// @Failure 401 {object} map[string]interface{} "未认证"
+// @Failure 500 {object} map[string]interface{} "修改密码失败"
+// @Router /user/password [put]
+func (c *UserController) ChangePassword(ctx *gin.Context) {
+	userIDValue, exists := ctx.Get("userID")
+	if !exists {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"code": 401, "message": "未认证"})
+		return
+	}
+
+	userID := userIDValue.(uint)
+
+	var req PasswordRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "参数错误: " + err.Error()})
+		return
+	}
+
+	if err := c.UserService.ChangePassword(userID, req.OldPassword, req.NewPassword); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "修改密码失败: " + err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "修改密码成功"})
+}
+
+// AssignRole 分配角色
+// @Summary 分配角色给用户
+// @Description 为指定用户分配角色
+// @Tags 用户管理
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "用户ID"
+// @Param data body RoleRequest true "角色信息"
+// @Success 200 {object} map[string]interface{} "分配成功"
+// @Failure 400 {object} map[string]interface{} "参数错误"
+// @Failure 500 {object} map[string]interface{} "分配角色失败"
+// @Router /user/{id}/role [post]
+func (c *UserController) AssignRole(ctx *gin.Context) {
+	userID, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "无效的用户ID"})
+		return
+	}
+
+	var req RoleRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "参数错误: " + err.Error()})
+		return
+	}
+
+	if err := c.UserService.AssignRoleToUser(uint(userID), req.RoleID); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "分配角色失败: " + err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "分配角色成功"})
+}
+
+// RemoveRole 移除角色
+// @Summary 移除用户的角色
+// @Description 从指定用户移除角色
+// @Tags 用户管理
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "用户ID"
+// @Param data body RoleRequest true "角色信息"
+// @Success 200 {object} map[string]interface{} "移除成功"
+// @Failure 400 {object} map[string]interface{} "参数错误"
+// @Failure 500 {object} map[string]interface{} "移除角色失败"
+// @Router /user/{id}/role [delete]
+func (c *UserController) RemoveRole(ctx *gin.Context) {
+	userID, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "无效的用户ID"})
+		return
+	}
+
+	var req RoleRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "参数错误: " + err.Error()})
+		return
+	}
+
+	if err := c.UserService.RemoveRoleFromUser(uint(userID), req.RoleID); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "移除角色失败: " + err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "移除角色成功"})
+}

@@ -9,4 +9,4 @@ DB:
   Charset: "utf8mb4"
 WebApi:
   Host: "127.0.0.1"
-  Port: "87"
+  Port: "88"
