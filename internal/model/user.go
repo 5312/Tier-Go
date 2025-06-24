@@ -1,18 +1,10 @@
 package model
 
-import (
-	"time"
-
-	"gorm.io/gorm"
-)
-
 // User 用户模型
 type User struct {
-	ID        uint           `gorm:"primarykey" json:"id"`
-	CreatedAt time.Time      `json:"created_at"`
-	UpdatedAt time.Time      `json:"updated_at"`
-	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
+	Base
 
+	ID       uint   `gorm:"primarykey" json:"id"`
 	Username string `gorm:"size:50;not null;unique" json:"username"`
 	Password string `gorm:"size:100;not null" json:"-"` // 密码不在JSON中返回
 	Nickname string `gorm:"size:50" json:"nickname"`
@@ -26,10 +18,8 @@ type User struct {
 
 // Role 角色模型
 type Role struct {
-	ID        uint           `gorm:"primarykey" json:"id"`
-	CreatedAt time.Time      `json:"created_at"`
-	UpdatedAt time.Time      `json:"updated_at"`
-	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
+	Base
+	ID uint `gorm:"primarykey" json:"id"`
 
 	Name        string `gorm:"size:50;not null;unique" json:"name"`
 	DisplayName string `gorm:"size:100" json:"display_name"`
