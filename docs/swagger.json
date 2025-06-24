@@ -3,19 +3,14 @@
     "info": {
         "description": "Tier Up项目的API服务",
         "title": "Tier Up API",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.example.com/support",
-            "email": "support@example.com"
-        },
+        "contact": {},
         "license": {
             "name": "Apache 2.0",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "localhost:88",
     "basePath": "/api/v1",
     "paths": {
         "/login": {

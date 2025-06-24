@@ -11,7 +11,7 @@ import (
 )
 
 func InitDB(c config.Config) (*sql.DB, *gorm.DB) {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai", c.DbConfig.Host, c.DbConfig.User, c.DbConfig.Password, c.DbConfig.DriverName, c.DbConfig.Port)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai", c.DB.Host, c.DB.User, c.DB.Password, c.DB.DriverName, c.DB.Port)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
@@ -22,7 +22,7 @@ func InitDB(c config.Config) (*sql.DB, *gorm.DB) {
 		panic(err)
 	}
 	// 迁移表
-	if c.DbConfig.AutoCreateTable {
+	if c.DB.AutoCreateTable {
 		AutoMigrate(db)
 	}
 

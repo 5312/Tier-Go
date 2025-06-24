@@ -24,8 +24,8 @@ type WebConfig struct {
 	Port string `yaml:"port"`
 }
 type Config struct {
-	DbConfig
-	WebConfig
+	DB     DbConfig  `mapstructure:"DB"`
+	WebApi WebConfig `mapstructure:"WebApi"`
 }
 
 func (d *Config) InitConfig() {
@@ -49,7 +49,7 @@ func (d *Config) InitConfig() {
 	driverName := viper.GetString("DB.DriverName")
 	charset := viper.GetString("DB.Charset")
 
-	d.DbConfig = DbConfig{
+	d.DB = DbConfig{
 		AutoCreateTable: autoCreateTable,
 		User:            user,
 		Password:        password,
@@ -58,7 +58,7 @@ func (d *Config) InitConfig() {
 		DriverName:      driverName,
 		Charset:         charset,
 	}
-	d.WebConfig = WebConfig{
+	d.WebApi = WebConfig{
 		Host: viper.GetString("WebApi.Host"),
 		Port: viper.GetString("WebApi.Port"),
 	}
