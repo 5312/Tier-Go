@@ -47,22 +47,12 @@ func main() {
 
 	// 初始化Gin
 	r := gin.Default()
-	// gin.SetMode(gin.ReleaseMode)
-
 	// 设置路由
 	router.SetupRouter(r, gormDB)
-
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-
 	// 启动服务器
 	addr := fmt.Sprintf("%s:%s", config.WebConfig.Host, config.WebConfig.Port)
 	fmt.Printf("服务器启动在 %s\n", addr)
 	fmt.Println("Swagger文档地址: http://" + addr + "/api/v1/swagger/index.html")
-
 	if err := r.Run(addr); err != nil {
 		fmt.Printf("启动服务器失败: %v\n", err)
 	}

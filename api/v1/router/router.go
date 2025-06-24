@@ -17,7 +17,7 @@ import (
 // SetupRouter 设置路由
 func SetupRouter(r *gin.Engine, db *gorm.DB) {
 	// 创建JWT服务
-	jwtService := jwt.NewJWTService(nil)
+	jwtService := jwt.NewJWTService()
 
 	// 创建服务
 	userService := service.NewUserService(db, jwtService)

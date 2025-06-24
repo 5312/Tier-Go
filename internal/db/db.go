@@ -10,9 +10,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// 全局DB变量
-var gormDB *gorm.DB
-
 func InitDB(c config.Config) (*sql.DB, *gorm.DB) {
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai", c.DbConfig.Host, c.DbConfig.User, c.DbConfig.Password, c.DbConfig.DriverName, c.DbConfig.Port)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
@@ -24,10 +21,6 @@ func InitDB(c config.Config) (*sql.DB, *gorm.DB) {
 		fmt.Print("\n", "链接数据库失败")
 		panic(err)
 	}
-
-	// 保存gorm.DB实例
-	gormDB = db
-
 	// 迁移表
 	if c.DbConfig.AutoCreateTable {
 		AutoMigrate(db)

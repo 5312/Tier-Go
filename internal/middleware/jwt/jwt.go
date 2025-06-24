@@ -16,6 +16,12 @@ type JWTConfig struct {
 	TokenExpireIn time.Duration
 }
 
+// 默认配置
+var defaultConfig = JWTConfig{
+	SecretKey:     "tier_up_secret_key",
+	TokenExpireIn: time.Hour * 24, // 1天
+}
+
 // CustomClaims 自定义JWT声明
 type CustomClaims struct {
 	UserID   uint   `json:"user_id"`
@@ -28,18 +34,9 @@ type JWTService struct {
 	Config JWTConfig
 }
 
-// 默认配置
-var defaultConfig = JWTConfig{
-	SecretKey:     "tier_up_secret_key",
-	TokenExpireIn: time.Hour * 24, // 1天
-}
-
 // NewJWTService 创建JWT服务
-func NewJWTService(config *JWTConfig) *JWTService {
-	if config == nil {
-		config = &defaultConfig
-	}
-	return &JWTService{Config: *config}
+func NewJWTService() *JWTService {
+	return &JWTService{Config: defaultConfig}
 }
 
 // GenerateToken 生成JWT令牌
