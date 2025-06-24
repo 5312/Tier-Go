@@ -11,6 +11,16 @@ import (
 	"gorm.io/gorm"
 )
 
+type IUserService interface {
+	Register(params RegisterRequest) (*model.User, error)
+	Login(req LoginRequest) (string, *model.User, error)
+	GetUserByID(id uint) (*model.User, error)
+	UpdateUser(user *model.User) error
+	ChangePassword(userID uint, oldPassword, newPassword string) error
+	AssignRoleToUser(userID, roleID uint) error
+	RemoveRoleFromUser(userID, roleID uint) error
+}
+
 // UserService 用户服务
 type UserService struct {
 	DB         *gorm.DB
