@@ -3,7 +3,7 @@ package auth
 import (
 	"net/http"
 	"strconv"
-	"tier_up/app/internal/middleware/casbin"
+	"tier-up/internal/middleware/casbin"
 
 	"github.com/gin-gonic/gin"
 )

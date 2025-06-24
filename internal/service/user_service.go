@@ -3,9 +3,9 @@ package service
 import (
 	"errors"
 	"strconv"
-	"tier_up/app/internal/middleware/casbin"
-	"tier_up/app/internal/middleware/jwt"
-	"tier_up/app/internal/model"
+	"tier-up/internal/middleware/casbin"
+	"tier-up/internal/middleware/jwt"
+	"tier-up/internal/model"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"

@@ -2,7 +2,7 @@ package db
 
 import (
 	"fmt"
-	"tier_up/app/internal/model"
+	"tier-up/internal/model"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"

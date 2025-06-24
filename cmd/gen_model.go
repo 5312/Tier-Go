@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"tier_up/app/internal/config"
+	"tier-up/internal/config"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gen"

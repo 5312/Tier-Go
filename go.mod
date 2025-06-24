@@ -1,4 +1,4 @@
-module tier_up/app
+module tier-up
 
 go 1.24.4
 

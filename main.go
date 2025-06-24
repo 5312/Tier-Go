@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 
-	"tier_up/app/api/v1/router"
-	_ "tier_up/app/docs" // 导入swagger文档
-	"tier_up/app/internal/config"
-	"tier_up/app/internal/db"
-	"tier_up/app/internal/middleware/casbin"
+	"tier-up/api/v1/router"
+	_ "tier-up/docs" // 导入swagger文档
+	"tier-up/internal/config"
+	"tier-up/internal/db"
+	"tier-up/internal/middleware/casbin"
 
 	"github.com/gin-gonic/gin"
 )

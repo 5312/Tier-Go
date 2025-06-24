@@ -3,7 +3,7 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"tier_up/app/internal/config"
+	"tier-up/internal/config"
 	"time"
 
 	"gorm.io/driver/postgres"

@@ -1,12 +1,12 @@
 package router
 
 import (
-	"tier_up/app/api/v1/controller"
-	"tier_up/app/internal/middleware/auth"
-	"tier_up/app/internal/middleware/jwt"
-	"tier_up/app/internal/service"
+	"tier-up/api/v1/controller"
+	"tier-up/internal/middleware/auth"
+	"tier-up/internal/middleware/jwt"
+	"tier-up/internal/service"
 
-	_ "tier_up/app/docs"
+	_ "tier-up/docs"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
