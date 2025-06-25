@@ -6,6 +6,7 @@ import (
 	"go/parser"
 	"go/token"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -17,8 +18,36 @@ const (
 	modelPkg   = "tier-up/internal/model"
 )
 
+var excludeStructs = map[string]bool{
+	"Base":       true,
+	"TempStruct": true,
+	"MyIgnore":   true,
+	"Menus":      true,
+}
+
 func isExported(name string) bool {
 	return regexp.MustCompile(`^[A-Z]`).MatchString(name)
+}
+
+func shouldExclude(name string) bool {
+	if excludeStructs[name] {
+		return true
+	}
+	// 自定义前缀排除规则
+	excludePrefixes := []string{"Resp", "VO", "Tmp"}
+	for _, prefix := range excludePrefixes {
+		if strings.HasPrefix(name, prefix) {
+			return true
+		}
+	}
+	return false
+}
+
+func runSwagInit() error {
+	cmd := exec.Command("swag", "init", "--parseDependency", "--output", "docs")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	return cmd.Run()
 }
 
 func main() {
@@ -46,7 +75,7 @@ func main() {
 				}
 				if _, ok := typeSpec.Type.(*ast.StructType); ok &&
 					isExported(typeSpec.Name.Name) &&
-					typeSpec.Name.Name != "Base" {
+					!shouldExclude(typeSpec.Name.Name) {
 					models = append(models, typeSpec.Name.Name)
 				}
 			}
@@ -62,7 +91,6 @@ func main() {
 	b.WriteString("package crud\n\n")
 	b.WriteString(`import (
 	"github.com/gin-gonic/gin"
-	model "` + modelPkg + `"
 )
 
 `)
@@ -132,4 +160,9 @@ func Page%s(c *gin.Context) {
 
 	_ = os.WriteFile(outputFile, []byte(b.String()), 0644)
 	fmt.Printf("✅ 已生成 %s\n", outputFile)
+	// 生成完注释后，执行 swag init
+	if err := runSwagInit(); err != nil {
+		fmt.Printf("执行 swag init 失败: %v", err)
+	}
+	fmt.Println("swag init 执行成功，swagger 文档已生成。")
 }

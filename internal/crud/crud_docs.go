@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+
 // CreateMenu godoc
 // @Summary 创建Menu
 // @Tags Menu
@@ -14,7 +15,7 @@ import (
 // @Success 200 {object} model.Menu
 // @Router /api/v1/menu/create [post]
 func CreateMenu(c *gin.Context) {
-
+	 
 }
 
 // UpdateMenu godoc
@@ -27,7 +28,7 @@ func CreateMenu(c *gin.Context) {
 // @Success 200 {object} model.Menu
 // @Router /api/v1/menu/update/{id} [put]
 func UpdateMenu(c *gin.Context) {
-
+	 
 }
 
 // DeleteMenu godoc
@@ -37,7 +38,7 @@ func UpdateMenu(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Router /api/v1/menu/delete/{id} [delete]
 func DeleteMenu(c *gin.Context) {
-
+	 
 }
 
 // PageMenu godoc
@@ -48,53 +49,7 @@ func DeleteMenu(c *gin.Context) {
 // @Success 200 {object} []model.Menu
 // @Router /api/v1/menu/page [get]
 func PageMenu(c *gin.Context) {
-
-}
-
-// CreateMenus godoc
-// @Summary 创建Menus
-// @Tags Menus
-// @Accept json
-// @Produce json
-// @Param data body model.Menus true "Menus信息"
-// @Success 200 {object} model.Menus
-// @Router /api/v1/menus/create [post]
-func CreateMenus(c *gin.Context) {
-
-}
-
-// UpdateMenus godoc
-// @Summary 更新Menus
-// @Tags Menus
-// @Accept json
-// @Produce json
-// @Param id path int true "ID"
-// @Param data body model.Menus true "Menus信息"
-// @Success 200 {object} model.Menus
-// @Router /api/v1/menus/update/{id} [put]
-func UpdateMenus(c *gin.Context) {
-
-}
-
-// DeleteMenus godoc
-// @Summary 删除Menus
-// @Tags Menus
-// @Param id path int true "ID"
-// @Success 200 {object} map[string]interface{}
-// @Router /api/v1/menus/delete/{id} [delete]
-func DeleteMenus(c *gin.Context) {
-
-}
-
-// PageMenus godoc
-// @Summary 分页查询Menus
-// @Tags Menus
-// @Param page query int false "页码"
-// @Param pageSize query int false "每页数量"
-// @Success 200 {object} []model.Menus
-// @Router /api/v1/menus/page [get]
-func PageMenus(c *gin.Context) {
-
+ 
 }
 
 // CreateRole godoc
@@ -106,7 +61,7 @@ func PageMenus(c *gin.Context) {
 // @Success 200 {object} model.Role
 // @Router /api/v1/role/create [post]
 func CreateRole(c *gin.Context) {
-
+	 
 }
 
 // UpdateRole godoc
@@ -119,7 +74,7 @@ func CreateRole(c *gin.Context) {
 // @Success 200 {object} model.Role
 // @Router /api/v1/role/update/{id} [put]
 func UpdateRole(c *gin.Context) {
-
+	 
 }
 
 // DeleteRole godoc
@@ -129,7 +84,7 @@ func UpdateRole(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Router /api/v1/role/delete/{id} [delete]
 func DeleteRole(c *gin.Context) {
-
+	 
 }
 
 // PageRole godoc
@@ -140,7 +95,7 @@ func DeleteRole(c *gin.Context) {
 // @Success 200 {object} []model.Role
 // @Router /api/v1/role/page [get]
 func PageRole(c *gin.Context) {
-
+ 
 }
 
 // CreateUser godoc
@@ -152,7 +107,7 @@ func PageRole(c *gin.Context) {
 // @Success 200 {object} model.User
 // @Router /api/v1/user/create [post]
 func CreateUser(c *gin.Context) {
-
+	 
 }
 
 // UpdateUser godoc
@@ -165,7 +120,7 @@ func CreateUser(c *gin.Context) {
 // @Success 200 {object} model.User
 // @Router /api/v1/user/update/{id} [put]
 func UpdateUser(c *gin.Context) {
-
+	 
 }
 
 // DeleteUser godoc
@@ -175,7 +130,7 @@ func UpdateUser(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Router /api/v1/user/delete/{id} [delete]
 func DeleteUser(c *gin.Context) {
-
+	 
 }
 
 // PageUser godoc
@@ -186,7 +141,7 @@ func DeleteUser(c *gin.Context) {
 // @Success 200 {object} []model.User
 // @Router /api/v1/user/page [get]
 func PageUser(c *gin.Context) {
-
+ 
 }
 
 // CreateUserRole godoc
@@ -198,7 +153,7 @@ func PageUser(c *gin.Context) {
 // @Success 200 {object} model.UserRole
 // @Router /api/v1/userrole/create [post]
 func CreateUserRole(c *gin.Context) {
-
+	 
 }
 
 // UpdateUserRole godoc
@@ -211,7 +166,7 @@ func CreateUserRole(c *gin.Context) {
 // @Success 200 {object} model.UserRole
 // @Router /api/v1/userrole/update/{id} [put]
 func UpdateUserRole(c *gin.Context) {
-
+	 
 }
 
 // DeleteUserRole godoc
@@ -221,7 +176,7 @@ func UpdateUserRole(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Router /api/v1/userrole/delete/{id} [delete]
 func DeleteUserRole(c *gin.Context) {
-
+	 
 }
 
 // PageUserRole godoc
@@ -232,5 +187,5 @@ func DeleteUserRole(c *gin.Context) {
 // @Success 200 {object} []model.UserRole
 // @Router /api/v1/userrole/page [get]
 func PageUserRole(c *gin.Context) {
-
+ 
 }
