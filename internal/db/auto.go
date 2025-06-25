@@ -14,6 +14,7 @@ func AutoMigrate(db *gorm.DB) {
 		&model.User{},
 		&model.Role{},
 		&model.UserRole{},
+		&model.Menu{},
 	); err != nil {
 		panic(err)
 	}
@@ -34,7 +35,6 @@ func AutoMigrate(db *gorm.DB) {
 			fmt.Println("密码加密失败", err)
 		}
 		admin := model.User{
-			ID:       1,
 			Username: "admin",
 			Password: string(hashedPassword),
 			Nickname: "超级管理员",

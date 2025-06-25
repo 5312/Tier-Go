@@ -4,7 +4,6 @@ package model
 type User struct {
 	Base
 
-	ID       uint   `gorm:"primarykey" json:"id"`
 	Username string `gorm:"size:50;not null;unique" json:"username"`
 	Password string `gorm:"size:100;not null" json:"-"` // 密码不在JSON中返回
 	Nickname string `gorm:"size:50" json:"nickname"`
