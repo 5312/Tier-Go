@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"tier-up/internal/middleware/casbin"
@@ -13,12 +14,18 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 从上下文中获取用户ID和用户名
 		userID, exists := c.Get("userID")
+
 		if !exists {
 			c.JSON(http.StatusUnauthorized, gin.H{"code": 401, "message": "未授权的访问"})
 			c.Abort()
 			return
 		}
-
+		username, exists1 := c.Get("username")
+		fmt.Println("用户 =", username, exists1)
+		if username == "admin" {
+			c.Next()
+			return
+		}
 		// 获取请求的路径和方法
 		obj := c.Request.URL.Path
 		act := c.Request.Method

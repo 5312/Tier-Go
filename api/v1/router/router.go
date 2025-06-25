@@ -2,8 +2,10 @@ package router
 
 import (
 	"tier-up/api/v1/controller"
+	"tier-up/internal/crud"
 	"tier-up/internal/middleware/auth"
 	"tier-up/internal/middleware/jwt"
+	"tier-up/internal/model"
 	"tier-up/internal/service"
 
 	_ "tier-up/docs"
@@ -43,6 +45,7 @@ func SetupRouter(r *gin.Engine, db *gorm.DB) {
 	authGroup.Use(jwtService.JWTAuthMiddleware())
 	{
 		// 用户相关
+		RegisterCrudRoutes[model.User](authGroup, "/user", db)
 		authGroup.GET("/user/info", userController.GetUserInfo)
 		authGroup.PUT("/user/info", userController.UpdateUserInfo)
 		authGroup.PUT("/user/password", userController.ChangePassword)
@@ -56,11 +59,7 @@ func SetupRouter(r *gin.Engine, db *gorm.DB) {
 			rbacGroup.DELETE("/user/:id/role", userController.RemoveRole)
 
 			// 角色管理
-			rbacGroup.POST("/role", roleController.CreateRole)
-			rbacGroup.GET("/role/:id", roleController.GetRoleByID)
-			rbacGroup.PUT("/role/:id", roleController.UpdateRole)
-			rbacGroup.DELETE("/role/:id", roleController.DeleteRole)
-			rbacGroup.GET("/roles", roleController.ListRoles)
+			RegisterCrudRoutes[model.Role](rbacGroup, "/role", db)
 
 			// 权限管理
 			rbacGroup.POST("/permission", roleController.AddPermission)
@@ -68,4 +67,13 @@ func SetupRouter(r *gin.Engine, db *gorm.DB) {
 			rbacGroup.GET("/role-permissions/:name", roleController.GetPermissions)
 		}
 	}
+}
+
+func RegisterCrudRoutes[T any](r *gin.RouterGroup, path string, db *gorm.DB) {
+	newCrud := &crud.Crud[T]{DB: db}
+	group := r.Group(path)
+	group.POST("/create", newCrud.Create)
+	group.PUT("/update/:id", newCrud.Update)
+	group.DELETE("/delete/:id", newCrud.Delete)
+	group.GET("/page", newCrud.Page)
 }
