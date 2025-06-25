@@ -19,6 +19,68 @@ definitions:
     required:
     - role_id
     type: object
+  model.Menu:
+    properties:
+      code:
+        type: integer
+      component:
+        type: string
+      created_at:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      note:
+        type: string
+      parentId:
+        type: integer
+      path:
+        type: string
+      sort:
+        type: integer
+      status:
+        type: integer
+      type:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  model.Menus:
+    properties:
+      children:
+        items:
+          $ref: '#/definitions/model.Menus'
+        type: array
+      code:
+        type: integer
+      component:
+        type: string
+      created_at:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      note:
+        type: string
+      parentId:
+        type: integer
+      path:
+        type: string
+      sort:
+        type: integer
+      status:
+        type: integer
+      type:
+        type: integer
+      updated_at:
+        type: string
+    type: object
   model.Role:
     properties:
       created_at:
@@ -63,6 +125,13 @@ definitions:
         type: string
       username:
         type: string
+    type: object
+  model.UserRole:
+    properties:
+      roleID:
+        type: integer
+      userID:
+        type: integer
     type: object
   service.LoginRequest:
     properties:
@@ -118,6 +187,431 @@ info:
   title: Tier Up API
   version: "1.0"
 paths:
+  /api/v1/menu/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Menu信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Menu'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Menu'
+      summary: 创建Menu
+      tags:
+      - Menu
+  /api/v1/menu/delete/{id}:
+    delete:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 删除Menu
+      tags:
+      - Menu
+  /api/v1/menu/page:
+    get:
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Menu'
+            type: array
+      summary: 分页查询Menu
+      tags:
+      - Menu
+  /api/v1/menu/update/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Menu信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Menu'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Menu'
+      summary: 更新Menu
+      tags:
+      - Menu
+  /api/v1/menus/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Menus信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Menus'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Menus'
+      summary: 创建Menus
+      tags:
+      - Menus
+  /api/v1/menus/delete/{id}:
+    delete:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 删除Menus
+      tags:
+      - Menus
+  /api/v1/menus/page:
+    get:
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Menus'
+            type: array
+      summary: 分页查询Menus
+      tags:
+      - Menus
+  /api/v1/menus/update/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Menus信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Menus'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Menus'
+      summary: 更新Menus
+      tags:
+      - Menus
+  /api/v1/role/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Role信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Role'
+      summary: 创建Role
+      tags:
+      - Role
+  /api/v1/role/delete/{id}:
+    delete:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 删除Role
+      tags:
+      - Role
+  /api/v1/role/page:
+    get:
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Role'
+            type: array
+      summary: 分页查询Role
+      tags:
+      - Role
+  /api/v1/role/update/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Role信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Role'
+      summary: 更新Role
+      tags:
+      - Role
+  /api/v1/user/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+      summary: 创建User
+      tags:
+      - User
+  /api/v1/user/delete/{id}:
+    delete:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 删除User
+      tags:
+      - User
+  /api/v1/user/page:
+    get:
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.User'
+            type: array
+      summary: 分页查询User
+      tags:
+      - User
+  /api/v1/user/update/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+      summary: 更新User
+      tags:
+      - User
+  /api/v1/userrole/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: UserRole信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserRole'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.UserRole'
+      summary: 创建UserRole
+      tags:
+      - UserRole
+  /api/v1/userrole/delete/{id}:
+    delete:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 删除UserRole
+      tags:
+      - UserRole
+  /api/v1/userrole/page:
+    get:
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.UserRole'
+            type: array
+      summary: 分页查询UserRole
+      tags:
+      - UserRole
+  /api/v1/userrole/update/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: UserRole信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserRole'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.UserRole'
+      summary: 更新UserRole
+      tags:
+      - UserRole
   /login:
     post:
       consumes:
