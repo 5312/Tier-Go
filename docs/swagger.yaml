@@ -526,7 +526,7 @@ paths:
             type: object
       summary: 用户登录
       tags:
-      - 用户管理
+      - User
   /permission:
     delete:
       consumes:
@@ -628,7 +628,7 @@ paths:
             type: object
       summary: 用户注册
       tags:
-      - 用户管理
+      - User
   /role-permissions/{name}:
     get:
       consumes:
@@ -696,7 +696,7 @@ paths:
       - BearerAuth: []
       summary: 获取角色详情
       tags:
-      - 角色管理
+      - Role
   /user/{id}/role:
     delete:
       consumes:
@@ -736,7 +736,7 @@ paths:
       - BearerAuth: []
       summary: 移除用户的角色
       tags:
-      - 用户管理
+      - User
     post:
       consumes:
       - application/json
@@ -775,7 +775,7 @@ paths:
       - BearerAuth: []
       summary: 分配角色给用户
       tags:
-      - 用户管理
+      - User
   /user/info:
     get:
       consumes:
@@ -803,7 +803,7 @@ paths:
       - BearerAuth: []
       summary: 获取当前用户信息
       tags:
-      - 用户管理
+      - User
     put:
       consumes:
       - application/json
@@ -842,7 +842,7 @@ paths:
       - BearerAuth: []
       summary: 更新当前用户信息
       tags:
-      - 用户管理
+      - User
   /user/password:
     put:
       consumes:
@@ -882,7 +882,7 @@ paths:
       - BearerAuth: []
       summary: 修改密码
       tags:
-      - 用户管理
+      - User
 securityDefinitions:
   BearerAuth:
     in: header

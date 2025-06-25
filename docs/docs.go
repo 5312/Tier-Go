@@ -557,7 +557,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户管理"
+                    "User"
                 ],
                 "summary": "用户登录",
                 "parameters": [
@@ -712,7 +712,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户管理"
+                    "User"
                 ],
                 "summary": "用户注册",
                 "parameters": [
@@ -818,7 +818,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "角色管理"
+                    "Role"
                 ],
                 "summary": "获取角色详情",
                 "parameters": [
@@ -870,7 +870,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户管理"
+                    "User"
                 ],
                 "summary": "获取当前用户信息",
                 "responses": {
@@ -911,7 +911,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户管理"
+                    "User"
                 ],
                 "summary": "更新当前用户信息",
                 "parameters": [
@@ -972,7 +972,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户管理"
+                    "User"
                 ],
                 "summary": "修改密码",
                 "parameters": [
@@ -1033,7 +1033,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户管理"
+                    "User"
                 ],
                 "summary": "分配角色给用户",
                 "parameters": [
@@ -1092,7 +1092,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "用户管理"
+                    "User"
                 ],
                 "summary": "移除用户的角色",
                 "parameters": [

@@ -34,7 +34,7 @@ func NewUserController(userService *service.UserService) *UserController {
 // Register 用户注册
 // @Summary 用户注册
 // @Description 注册新用户
-// @Tags 用户管理
+// @Tags User
 // @Accept json
 // @Produce json
 // @Param data body service.RegisterRequest true "用户注册信息"
@@ -61,7 +61,7 @@ func (c *UserController) Register(ctx *gin.Context) {
 // Login 用户登录
 // @Summary 用户登录
 // @Description 用户登录获取令牌
-// @Tags 用户管理
+// @Tags User
 // @Accept json
 // @Produce json
 // @Param data body service.LoginRequest true "用户登录信息"
@@ -95,7 +95,7 @@ func (c *UserController) Login(ctx *gin.Context) {
 // GetUserInfo 获取用户信息
 // @Summary 获取当前用户信息
 // @Description 获取已登录用户的详细信息
-// @Tags 用户管理
+// @Tags User
 // @Accept json
 // @Produce json
 // @Security BearerAuth
@@ -123,7 +123,7 @@ func (c *UserController) GetUserInfo(ctx *gin.Context) {
 // UpdateUserInfo 更新用户信息
 // @Summary 更新当前用户信息
 // @Description 更新已登录用户的信息
-// @Tags 用户管理
+// @Tags User
 // @Accept json
 // @Produce json
 // @Security BearerAuth
@@ -167,7 +167,7 @@ func (c *UserController) UpdateUserInfo(ctx *gin.Context) {
 // ChangePassword 修改密码
 // @Summary 修改密码
 // @Description 修改当前用户的密码
-// @Tags 用户管理
+// @Tags User
 // @Accept json
 // @Produce json
 // @Security BearerAuth
@@ -203,7 +203,7 @@ func (c *UserController) ChangePassword(ctx *gin.Context) {
 // AssignRole 分配角色
 // @Summary 分配角色给用户
 // @Description 为指定用户分配角色
-// @Tags 用户管理
+// @Tags User
 // @Accept json
 // @Produce json
 // @Security BearerAuth
@@ -237,7 +237,7 @@ func (c *UserController) AssignRole(ctx *gin.Context) {
 // RemoveRole 移除角色
 // @Summary 移除用户的角色
 // @Description 从指定用户移除角色
-// @Tags 用户管理
+// @Tags User
 // @Accept json
 // @Produce json
 // @Security BearerAuth

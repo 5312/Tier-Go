@@ -16,7 +16,6 @@ type Menu struct {
 }
 
 type Menus struct {
-	Base
 	Menu
 	Children []Menus `json:"children"`
 }

@@ -23,7 +23,7 @@ func NewRole(roleService *service.RoleService) *Role {
 // GetRoleByID 获取角色
 // @Summary 获取角色详情
 // @Description 根据ID获取角色详情
-// @Tags 角色管理
+// @Tags Role
 // @Accept json
 // @Produce json
 // @Security BearerAuth
