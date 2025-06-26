@@ -128,12 +128,13 @@ func generateStubs(write func(string), m ModelStub) {
 	if m.Flags["create"] {
 		printFunc(write, m.Name, m.Prefix+"/create", "post", "创建")
 	}
-	if m.Flags["update"] {
-		printFunc(write, m.Name, m.Prefix+"/update/:id", "put", "更新")
-	}
 	if m.Flags["delete"] {
 		printFunc(write, m.Name, m.Prefix+"/delete/:id", "delete", "删除")
 	}
+	if m.Flags["update"] {
+		printFunc(write, m.Name, m.Prefix+"/update/:id", "put", "更新")
+	}
+
 	if m.Flags["page"] {
 		printFunc(write, m.Name, m.Prefix+"/page", "get", "分页查询")
 	}
