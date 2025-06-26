@@ -29,9 +29,9 @@ type Config struct {
 }
 
 func (d *Config) InitConfig() {
-	viper.SetConfigFile("../../config.yaml") // 指定配置文件路径
-	viper.SetConfigName("config")            // 配置文件名称(无扩展名)
-	viper.SetConfigType("yaml")              // 如果配置文件的名称中没有扩展名，则需要配置此项
+	viper.SetConfigFile("tier-up/config.yaml") // 指定配置文件路径
+	viper.SetConfigName("config")              // 配置文件名称(无扩展名)
+	viper.SetConfigType("yaml")                // 如果配置文件的名称中没有扩展名，则需要配置此项
 	// viper.AddConfigPath("tier-up")           // 查找配置文件所在的路径
 	viper.AddConfigPath(".")    // 还可以在工作目录中查找配置
 	viper.WatchConfig()         //监控配置文件更新
