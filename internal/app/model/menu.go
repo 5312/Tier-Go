@@ -13,8 +13,7 @@ type Menu struct {
 	Sort      int     `json:"sort" gorm:"comment:显示顺序;"`
 	ParentId  *uint64 `json:"parent_id" gorm:"column:parent_id"` // 允许为空的父ID
 
-	Parent   *Menu  `json:"parent" gorm:"foreignKey:ParentId;references:ID"`
-	Children []Menu `gorm:"foreignKey:ParentId"`
+	Children []Menu `json:"children" gorm:"foreignKey:ParentId"`
 
 	_ struct{} `crud:"prefix:/menu,create,update,delete"`
 }

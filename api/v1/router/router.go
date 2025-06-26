@@ -25,6 +25,7 @@ func SetupDigRouter(r *gin.Engine, c *dig.Container) error {
 		roleService *service.RoleService,
 		userController *controller.UserController,
 		roleController *controller.RoleController,
+		menuController *controller.MenuController,
 	) {
 		// 设置API路由组
 		api := r.Group("/api/v1")
@@ -66,6 +67,7 @@ func SetupDigRouter(r *gin.Engine, c *dig.Container) error {
 
 				// 菜单管理
 				crud.RegisterCrudRoutes[model.Menu, model.MenuReq](rbacGroup, db)
+				rbacGroup.GET("/menu/tree", menuController.GetMenuTree)
 			}
 		}
 	})

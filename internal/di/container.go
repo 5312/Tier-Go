@@ -19,10 +19,11 @@ func BuildContainer(db *gorm.DB) *dig.Container {
 	// 业务服务
 	container.Provide(service.NewUserService)
 	container.Provide(service.NewRoleService)
-
+	container.Provide(service.NewMenuService)
 	// 控制器
 	container.Provide(controller.NewUserController)
 	container.Provide(controller.NewRoleController)
+	container.Provide(controller.NewMenuController)
 
 	return container
 }

@@ -339,6 +339,24 @@ paths:
       summary: 删除 Menu
       tags:
       - Menu
+  /menu/tree:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 菜单详情
+          schema:
+            items:
+              $ref: '#/definitions/model.Menu'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: 获取菜单树
+      tags:
+      - Menu
   /menu/update/:id:
     put:
       consumes:
