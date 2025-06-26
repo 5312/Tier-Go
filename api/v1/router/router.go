@@ -50,7 +50,6 @@ func SetupDigRouter(r *gin.Engine, c *dig.Container) error {
 				crud.RegisterCrudRoutes[model.User](authGroup, db)
 
 				authGroup.GET("/user/info", userController.GetUserInfo)
-				authGroup.PUT("/user/info", userController.UpdateUserInfo)
 				authGroup.PUT("/user/password", userController.ChangePassword)
 
 				// 用户角色管理

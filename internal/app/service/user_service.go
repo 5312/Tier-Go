@@ -133,11 +133,6 @@ func (s *UserService) GetUserByID(id uint) (*model.User, error) {
 	return &user, nil
 }
 
-// UpdateUser 更新用户信息
-func (s *UserService) UpdateUser(user *model.User) error {
-	return s.DB.Save(user).Error
-}
-
 // ChangePassword 修改密码
 func (s *UserService) ChangePassword(userID uint, oldPassword, newPassword string) error {
 	var user model.User

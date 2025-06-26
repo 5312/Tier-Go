@@ -16,5 +16,5 @@ type Menu struct {
 	Parent   *Menu   `json:"parent" gorm:"foreignKey:ParentId;references:ID"`
 	Children []Menu  `gorm:"foreignKey:ParentId"`
 
-	_ struct{} `crud:"prefix:/menu,create,update,delete,page"`
+	_ struct{} `crud:"prefix:/menu,create,update,delete"`
 }

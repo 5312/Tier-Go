@@ -120,50 +120,6 @@ func (c *UserController) GetUserInfo(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "获取用户信息成功", "data": user})
 }
 
-// UpdateUserInfo 更新用户信息
-// @Summary 更新当前用户信息
-// @Description 更新已登录用户的信息
-// @Tags User
-// @Accept json
-// @Produce json
-// @Security BearerAuth
-// @Param data body model.User true "用户信息"
-// @Success 200 {object} map[string]interface{} "更新成功"
-// @Failure 400 {object} map[string]interface{} "参数错误"
-// @Failure 401 {object} map[string]interface{} "未认证"
-// @Failure 500 {object} map[string]interface{} "更新用户信息失败"
-// @Router /user/info [put]
-func (c *UserController) UpdateUserInfo(ctx *gin.Context) {
-	userIDValue, exists := ctx.Get("userID")
-	if !exists {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"code": 401, "message": "未认证"})
-		return
-	}
-
-	userID := userIDValue.(uint)
-	user, err := c.UserService.GetUserByID(userID)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "获取用户信息失败: " + err.Error()})
-		return
-	}
-
-	// 只允许更新部分字段
-	if err := ctx.ShouldBindJSON(user); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "参数错误: " + err.Error()})
-		return
-	}
-
-	// 确保ID不变
-	user.ID = userID
-
-	if err := c.UserService.UpdateUser(user); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "更新用户信息失败: " + err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "更新用户信息成功", "data": user})
-}
-
 // ChangePassword 修改密码
 // @Summary 修改密码
 // @Description 修改当前用户的密码
