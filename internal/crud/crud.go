@@ -19,14 +19,6 @@ type Crud[T any] struct {
 	DB *gorm.DB
 }
 
-type RouteConfig struct {
-	Prefix string
-	Create bool
-	Update bool
-	Delete bool
-	Page   bool
-}
-
 func (c Crud[T]) Create(ctx *gin.Context) {
 	var entity T
 	if err := ctx.ShouldBindJSON(&entity); err != nil {
@@ -102,7 +94,7 @@ func (c Crud[T]) Page(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{
 		"code":    200,
-		"message": "获取角色列表成功",
+		"message": "获取列表成功",
 		"data": gin.H{
 			"page":  page,
 			"limit": limit,

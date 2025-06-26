@@ -15,4 +15,6 @@ type Menu struct {
 	ParentId *uint64 `json:"parent_id" gorm:"column:parent_id"` // 允许为空的父ID
 	Parent   *Menu   `json:"parent" gorm:"foreignKey:ParentId;references:ID"`
 	Children []Menu  `gorm:"foreignKey:ParentId"`
+
+	_ struct{} `crud:"prefix:/menu,create,update,delete,page"`
 }

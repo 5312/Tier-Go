@@ -19,8 +19,99 @@ definitions:
     required:
     - role_id
     type: object
+  crud.MenuPageResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        properties:
+          data:
+            items:
+              $ref: '#/definitions/model.Menu'
+            type: array
+          limit:
+            type: integer
+          page:
+            type: integer
+          total:
+            type: integer
+        type: object
+      message:
+        type: string
+    type: object
+  crud.MenuResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/model.Menu'
+      message:
+        type: string
+    type: object
+  crud.RolePageResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        properties:
+          data:
+            items:
+              $ref: '#/definitions/model.Role'
+            type: array
+          limit:
+            type: integer
+          page:
+            type: integer
+          total:
+            type: integer
+        type: object
+      message:
+        type: string
+    type: object
+  crud.RoleResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/model.Role'
+      message:
+        type: string
+    type: object
+  crud.UserPageResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        properties:
+          data:
+            items:
+              $ref: '#/definitions/model.User'
+            type: array
+          limit:
+            type: integer
+          page:
+            type: integer
+          total:
+            type: integer
+        type: object
+      message:
+        type: string
+    type: object
+  crud.UserResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/model.User'
+      message:
+        type: string
+    type: object
   model.Menu:
     properties:
+      children:
+        items:
+          $ref: '#/definitions/model.Menu'
+        type: array
       code:
         type: integer
       component:
@@ -35,7 +126,10 @@ definitions:
         type: string
       note:
         type: string
-      parentId:
+      parent:
+        $ref: '#/definitions/model.Menu'
+      parent_id:
+        description: 允许为空的父ID
         type: integer
       path:
         type: string
@@ -93,13 +187,6 @@ definitions:
       username:
         type: string
     type: object
-  model.UserRole:
-    properties:
-      roleID:
-        type: integer
-      userID:
-        type: integer
-    type: object
   service.LoginRequest:
     properties:
       password:
@@ -154,346 +241,6 @@ info:
   title: Tier Up API
   version: "1.0"
 paths:
-  /api/v1/menu/create:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: Menu信息
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/model.Menu'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.Menu'
-      summary: 创建Menu
-      tags:
-      - Menu
-  /api/v1/menu/delete/{id}:
-    delete:
-      parameters:
-      - description: ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-      summary: 删除Menu
-      tags:
-      - Menu
-  /api/v1/menu/page:
-    get:
-      parameters:
-      - description: 页码
-        in: query
-        name: page
-        type: integer
-      - description: 每页数量
-        in: query
-        name: pageSize
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/model.Menu'
-            type: array
-      summary: 分页查询Menu
-      tags:
-      - Menu
-  /api/v1/menu/update/{id}:
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Menu信息
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/model.Menu'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.Menu'
-      summary: 更新Menu
-      tags:
-      - Menu
-  /api/v1/role/create:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: Role信息
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/model.Role'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.Role'
-      summary: 创建Role
-      tags:
-      - Role
-  /api/v1/role/delete/{id}:
-    delete:
-      parameters:
-      - description: ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-      summary: 删除Role
-      tags:
-      - Role
-  /api/v1/role/page:
-    get:
-      parameters:
-      - description: 页码
-        in: query
-        name: page
-        type: integer
-      - description: 每页数量
-        in: query
-        name: pageSize
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/model.Role'
-            type: array
-      summary: 分页查询Role
-      tags:
-      - Role
-  /api/v1/role/update/{id}:
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Role信息
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/model.Role'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.Role'
-      summary: 更新Role
-      tags:
-      - Role
-  /api/v1/user/create:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: User信息
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/model.User'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.User'
-      summary: 创建User
-      tags:
-      - User
-  /api/v1/user/delete/{id}:
-    delete:
-      parameters:
-      - description: ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-      summary: 删除User
-      tags:
-      - User
-  /api/v1/user/page:
-    get:
-      parameters:
-      - description: 页码
-        in: query
-        name: page
-        type: integer
-      - description: 每页数量
-        in: query
-        name: pageSize
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/model.User'
-            type: array
-      summary: 分页查询User
-      tags:
-      - User
-  /api/v1/user/update/{id}:
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: User信息
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/model.User'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.User'
-      summary: 更新User
-      tags:
-      - User
-  /api/v1/userrole/create:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: UserRole信息
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/model.UserRole'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.UserRole'
-      summary: 创建UserRole
-      tags:
-      - UserRole
-  /api/v1/userrole/delete/{id}:
-    delete:
-      parameters:
-      - description: ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-      summary: 删除UserRole
-      tags:
-      - UserRole
-  /api/v1/userrole/page:
-    get:
-      parameters:
-      - description: 页码
-        in: query
-        name: page
-        type: integer
-      - description: 每页数量
-        in: query
-        name: pageSize
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/model.UserRole'
-            type: array
-      summary: 分页查询UserRole
-      tags:
-      - UserRole
-  /api/v1/userrole/update/{id}:
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: UserRole信息
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/model.UserRole'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.UserRole'
-      summary: 更新UserRole
-      tags:
-      - UserRole
   /login:
     post:
       consumes:
@@ -527,6 +274,80 @@ paths:
       summary: 用户登录
       tags:
       - User
+  /menu/create:
+    post:
+      consumes:
+      - application/json
+      description: 创建 Menu
+      parameters:
+      - description: Menu 数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Menu'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/crud.MenuResponse'
+      summary: 创建 Menu
+      tags:
+      - Menu
+  /menu/delete/:id:
+    delete:
+      consumes:
+      - application/json
+      description: 删除 Menu
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/crud.MenuResponse'
+      summary: 删除 Menu
+      tags:
+      - Menu
+  /menu/page:
+    get:
+      consumes:
+      - application/json
+      description: 分页查询 Menu
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/crud.MenuPageResponse'
+      summary: 分页查询 Menu
+      tags:
+      - Menu
+  /menu/update/:id:
+    put:
+      consumes:
+      - application/json
+      description: 更新 Menu
+      parameters:
+      - description: Menu 数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Menu'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/crud.MenuResponse'
+      summary: 更新 Menu
+      tags:
+      - Menu
   /permission:
     delete:
       consumes:
@@ -697,6 +518,80 @@ paths:
       summary: 获取角色详情
       tags:
       - Role
+  /role/create:
+    post:
+      consumes:
+      - application/json
+      description: 创建 Role
+      parameters:
+      - description: Role 数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/crud.RoleResponse'
+      summary: 创建 Role
+      tags:
+      - Role
+  /role/delete/:id:
+    delete:
+      consumes:
+      - application/json
+      description: 删除 Role
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/crud.RoleResponse'
+      summary: 删除 Role
+      tags:
+      - Role
+  /role/page:
+    get:
+      consumes:
+      - application/json
+      description: 分页查询 Role
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/crud.RolePageResponse'
+      summary: 分页查询 Role
+      tags:
+      - Role
+  /role/update/:id:
+    put:
+      consumes:
+      - application/json
+      description: 更新 Role
+      parameters:
+      - description: Role 数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/crud.RoleResponse'
+      summary: 更新 Role
+      tags:
+      - Role
   /user/{id}/role:
     delete:
       consumes:
@@ -776,6 +671,43 @@ paths:
       summary: 分配角色给用户
       tags:
       - User
+  /user/create:
+    post:
+      consumes:
+      - application/json
+      description: 创建 User
+      parameters:
+      - description: User 数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/crud.UserResponse'
+      summary: 创建 User
+      tags:
+      - User
+  /user/delete/:id:
+    delete:
+      consumes:
+      - application/json
+      description: 删除 User
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/crud.UserResponse'
+      summary: 删除 User
+      tags:
+      - User
   /user/info:
     get:
       consumes:
@@ -843,6 +775,21 @@ paths:
       summary: 更新当前用户信息
       tags:
       - User
+  /user/page:
+    get:
+      consumes:
+      - application/json
+      description: 分页查询 User
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/crud.UserPageResponse'
+      summary: 分页查询 User
+      tags:
+      - User
   /user/password:
     put:
       consumes:
@@ -881,6 +828,28 @@ paths:
       security:
       - BearerAuth: []
       summary: 修改密码
+      tags:
+      - User
+  /user/update/:id:
+    put:
+      consumes:
+      - application/json
+      description: 更新 User
+      parameters:
+      - description: User 数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/crud.UserResponse'
+      summary: 更新 User
       tags:
       - User
 securityDefinitions:

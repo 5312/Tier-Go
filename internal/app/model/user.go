@@ -13,6 +13,8 @@ type User struct {
 	Status   int    `gorm:"default:1" json:"status"` // 1:正常, 0:禁用
 
 	Roles []Role `gorm:"many2many:user_roles;" json:"roles"`
+
+	_ struct{} `crud:"prefix:/user,create,update,delete,page"`
 }
 
 // UserRole 用户角色关联表

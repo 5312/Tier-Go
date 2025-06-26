@@ -5,25 +5,26 @@ import (
 	"gorm.io/gorm"
 )
 
+// 根据配置 创建
 func RegisterCrudRoutes[T any](
 	r *gin.RouterGroup,
-	config RouteConfig,
 	db *gorm.DB,
 ) {
-	crud := &Crud[T]{DB: db}
+	// 解析model tag配置
+	config := ParseModelConfig[T]()
+	var handle ICrud[T] = Crud[T]{DB: db}
 	group := r.Group(config.Prefix)
-
 	// 按需注册路由
 	if config.Create {
-		group.POST("/create", crud.Create)
+		group.POST("/create", handle.Create)
 	}
 	if config.Update {
-		group.PUT("/update/:id", crud.Update)
+		group.PUT("/update/:id", handle.Update)
 	}
 	if config.Delete {
-		group.DELETE("/delete/:id", crud.Delete)
+		group.DELETE("/delete/:id", handle.Delete)
 	}
 	if config.Page {
-		group.GET("/page", crud.Page)
+		group.GET("/page", handle.Page)
 	}
 }

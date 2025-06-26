@@ -8,4 +8,6 @@ type Role struct {
 	Description string `gorm:"size:200" json:"description"`
 
 	Users []User `gorm:"many2many:user_roles;" json:"users"`
+
+	_ struct{} `crud:"prefix:/role,create,update,delete,page"`
 }
