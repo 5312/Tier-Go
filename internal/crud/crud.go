@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/copier"
 	"gorm.io/gorm"
 )
 
@@ -15,17 +16,24 @@ type ICrud[T any] interface {
 	Page(*gin.Context)
 }
 
-type Crud[T any] struct {
+type Crud[T any, CreateDTO any] struct {
 	DB *gorm.DB
 }
 
-func (c Crud[T]) Create(ctx *gin.Context) {
-	var entity T
-	if err := ctx.ShouldBindJSON(&entity); err != nil {
+func (c Crud[T, CreateDTO]) Create(ctx *gin.Context) {
+	var dto CreateDTO
+
+	if err := ctx.ShouldBindJSON(&dto); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "参数错误: " + err.Error()})
 		return
 	}
+	var entity T
 
+	err := copier.Copy(&entity, &dto)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "参数错误: " + err.Error()})
+		return
+	}
 	if err := c.DB.Create(&entity).Error; err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "创建失败: " + err.Error()})
 		return
@@ -33,9 +41,10 @@ func (c Crud[T]) Create(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "创建成功", "data": entity})
 }
 
-func (c Crud[T]) Update(ctx *gin.Context) {
+func (c Crud[T, CreateDTO]) Update(ctx *gin.Context) {
 	var entity T
-	// id := ctx.Param("id")
+	var dto CreateDTO
+
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "无效的ID"})
@@ -47,20 +56,24 @@ func (c Crud[T]) Update(ctx *gin.Context) {
 		return
 	}
 
-	if err := ctx.ShouldBindJSON(&entity); err != nil {
+	if err := ctx.ShouldBindJSON(&dto); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "参数错误: " + err.Error()})
 		return
 	}
-
-	if err := c.DB.Save(&entity).Error; err != nil {
+	if err := copier.Copy(&entity, &dto); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "数据映射失败: " + err.Error()})
+		return
+	}
+	if err := c.DB.Model(&entity).Updates(entity).Error; err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "更新失败: " + err.Error()})
 		return
 	}
+
 	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "更新成功", "data": entity})
 
 }
 
-func (c Crud[T]) Delete(ctx *gin.Context) {
+func (c Crud[T, CreateDTO]) Delete(ctx *gin.Context) {
 	var entity T
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
@@ -75,7 +88,7 @@ func (c Crud[T]) Delete(ctx *gin.Context) {
 
 }
 
-func (c Crud[T]) Page(ctx *gin.Context) {
+func (c Crud[T, CreateDTO]) Page(ctx *gin.Context) {
 	var entity T
 	var total int64
 	var list []T

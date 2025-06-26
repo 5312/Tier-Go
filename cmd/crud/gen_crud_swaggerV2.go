@@ -58,6 +58,13 @@ func main() {
 // 扫描Struct
 func scanModels() []ModelStub {
 	var models []ModelStub
+
+	// 🧩 要跳过的基础模型名列表
+	skipModelSet := map[string]bool{
+		"Base":      true,
+		"GormModel": true,
+	}
+
 	err := filepath.Walk(modelDir, func(path string, info os.FileInfo, err error) error {
 		if err != nil || !strings.HasSuffix(info.Name(), ".go") {
 			return nil
@@ -78,6 +85,10 @@ func scanModels() []ModelStub {
 				structType, ok := typeSpec.Type.(*ast.StructType)
 				if !ok {
 					continue
+				}
+				modelName := typeSpec.Name.Name
+				if skipModelSet[modelName] {
+					continue // ❌ 跳过基础模型
 				}
 				model := ModelStub{
 					Name:  typeSpec.Name.Name,
@@ -149,7 +160,7 @@ func printFunc(write func(string), model, path, method, action string) {
 	write("// @Accept json")
 	write("// @Produce json")
 	if method == "post" || method == "put" {
-		write(fmt.Sprintf("// @Param data body model.%s true \"%s 数据\"", model, model))
+		write(fmt.Sprintf("// @Param data body model.%sReq true \"%s 数据\"", model, model))
 	}
 	resp := model
 	if action == "分页查询" {

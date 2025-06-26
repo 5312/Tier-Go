@@ -122,6 +122,34 @@ definitions:
       updated_at:
         type: string
     type: object
+  model.MenuReq:
+    properties:
+      code:
+        type: integer
+      component:
+        type: string
+      icon:
+        type: string
+      name:
+        type: string
+      note:
+        type: string
+      parent_id:
+        type: integer
+      path:
+        type: string
+      sort:
+        type: integer
+      status:
+        type: integer
+      type:
+        type: integer
+    required:
+    - component
+    - path
+    - sort
+    - type
+    type: object
   model.Role:
     properties:
       created_at:
@@ -136,10 +164,15 @@ definitions:
         type: string
       updated_at:
         type: string
-      users:
-        items:
-          $ref: '#/definitions/model.User'
-        type: array
+    type: object
+  model.RoleReq:
+    properties:
+      description:
+        type: string
+      display_name:
+        type: string
+      name:
+        type: string
     type: object
   model.User:
     properties:
@@ -164,6 +197,21 @@ definitions:
         type: integer
       updated_at:
         type: string
+      username:
+        type: string
+    type: object
+  model.UserReq:
+    properties:
+      avatar:
+        type: string
+      email:
+        type: string
+      nickname:
+        type: string
+      phone:
+        type: string
+      status:
+        type: integer
       username:
         type: string
     type: object
@@ -265,7 +313,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/model.Menu'
+          $ref: '#/definitions/model.MenuReq'
       produces:
       - application/json
       responses:
@@ -302,7 +350,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/model.Menu'
+          $ref: '#/definitions/model.MenuReq'
       produces:
       - application/json
       responses:
@@ -494,7 +542,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/model.Role'
+          $ref: '#/definitions/model.RoleReq'
       produces:
       - application/json
       responses:
@@ -546,7 +594,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/model.Role'
+          $ref: '#/definitions/model.RoleReq'
       produces:
       - application/json
       responses:
@@ -647,7 +695,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/model.User'
+          $ref: '#/definitions/model.UserReq'
       produces:
       - application/json
       responses:
@@ -767,7 +815,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/model.User'
+          $ref: '#/definitions/model.UserReq'
       produces:
       - application/json
       responses:

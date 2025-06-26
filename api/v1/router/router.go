@@ -47,7 +47,7 @@ func SetupDigRouter(r *gin.Engine, c *dig.Container) error {
 			rbacGroup.Use(auth.AuthMiddleware())
 			{
 				// 用户相关
-				crud.RegisterCrudRoutes[model.User](authGroup, db)
+				crud.RegisterCrudRoutes[model.User, model.UserReq](authGroup, db)
 
 				authGroup.GET("/user/info", userController.GetUserInfo)
 				authGroup.PUT("/user/password", userController.ChangePassword)
@@ -57,12 +57,15 @@ func SetupDigRouter(r *gin.Engine, c *dig.Container) error {
 				rbacGroup.DELETE("/user/:id/role", userController.RemoveRole)
 
 				// 角色管理
-				crud.RegisterCrudRoutes[model.Role](rbacGroup, db)
+				crud.RegisterCrudRoutes[model.Role, model.RoleReq](rbacGroup, db)
 
 				// 权限管理
 				rbacGroup.POST("/permission", roleController.AddPermission)
 				rbacGroup.DELETE("/permission", roleController.RemovePermission)
 				rbacGroup.GET("/role-permissions/:name", roleController.GetPermissions)
+
+				// 菜单管理
+				crud.RegisterCrudRoutes[model.Menu, model.MenuReq](rbacGroup, db)
 			}
 		}
 	})

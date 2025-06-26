@@ -7,7 +7,13 @@ type Role struct {
 	DisplayName string `gorm:"size:100" json:"display_name"`
 	Description string `gorm:"size:200" json:"description"`
 
-	Users []User `gorm:"many2many:user_roles;" json:"users"`
+	Users []User `gorm:"many2many:user_roles;" json:"-"`
 
 	_ struct{} `crud:"prefix:/role,create,update,delete,page"`
+}
+
+type RoleReq struct {
+	Name        string `json:"name"`
+	DisplayName string `json:"display_name"`
+	Description string `json:"description"`
 }

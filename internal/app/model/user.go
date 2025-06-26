@@ -16,6 +16,14 @@ type User struct {
 
 	_ struct{} `crud:"prefix:/user,create,update,delete,page"`
 }
+type UserReq struct {
+	Username string `json:"username"`
+	Nickname string `json:"nickname"`
+	Email    string `json:"email"`
+	Phone    string `json:"phone"`
+	Avatar   string `json:"avatar"`
+	Status   int    `json:"status"`
+}
 
 // UserRole 用户角色关联表
 type UserRole struct {

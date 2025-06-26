@@ -6,13 +6,13 @@ import (
 )
 
 // 根据配置 创建
-func RegisterCrudRoutes[T any](
+func RegisterCrudRoutes[T any, C any](
 	r *gin.RouterGroup,
 	db *gorm.DB,
 ) {
 	// 解析model tag配置
 	config := ParseModelConfig[T]()
-	var handle ICrud[T] = Crud[T]{DB: db}
+	var handle ICrud[T] = Crud[T, C]{DB: db}
 	group := r.Group(config.Prefix)
 	// 按需注册路由
 	if config.Create {

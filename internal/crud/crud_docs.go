@@ -13,7 +13,7 @@ import (
 // @Tags Menu
 // @Accept json
 // @Produce json
-// @Param data body model.Menu true "Menu 数据"
+// @Param data body model.MenuReq true "Menu 数据"
 // @Success 200 {object} MenuResponse
 // @Router /menu/create [post]
 func MenuCreateDoc(ctx *gin.Context) {}
@@ -34,7 +34,7 @@ func MenuDeleteDoc(ctx *gin.Context) {}
 // @Tags Menu
 // @Accept json
 // @Produce json
-// @Param data body model.Menu true "Menu 数据"
+// @Param data body model.MenuReq true "Menu 数据"
 // @Success 200 {object} MenuResponse
 // @Router /menu/update/:id [put]
 func MenuUpdateDoc(ctx *gin.Context) {}
@@ -64,7 +64,7 @@ type MenuPageResponse struct {
 // @Tags Role
 // @Accept json
 // @Produce json
-// @Param data body model.Role true "Role 数据"
+// @Param data body model.RoleReq true "Role 数据"
 // @Success 200 {object} RoleResponse
 // @Router /role/create [post]
 func RoleCreateDoc(ctx *gin.Context) {}
@@ -85,7 +85,7 @@ func RoleDeleteDoc(ctx *gin.Context) {}
 // @Tags Role
 // @Accept json
 // @Produce json
-// @Param data body model.Role true "Role 数据"
+// @Param data body model.RoleReq true "Role 数据"
 // @Success 200 {object} RoleResponse
 // @Router /role/update/:id [put]
 func RoleUpdateDoc(ctx *gin.Context) {}
@@ -125,7 +125,7 @@ type RolePageResponse struct {
 // @Tags User
 // @Accept json
 // @Produce json
-// @Param data body model.User true "User 数据"
+// @Param data body model.UserReq true "User 数据"
 // @Success 200 {object} UserResponse
 // @Router /user/create [post]
 func UserCreateDoc(ctx *gin.Context) {}
@@ -146,7 +146,7 @@ func UserDeleteDoc(ctx *gin.Context) {}
 // @Tags User
 // @Accept json
 // @Produce json
-// @Param data body model.User true "User 数据"
+// @Param data body model.UserReq true "User 数据"
 // @Success 200 {object} UserResponse
 // @Router /user/update/:id [put]
 func UserUpdateDoc(ctx *gin.Context) {}
