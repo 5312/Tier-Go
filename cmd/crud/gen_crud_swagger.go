@@ -13,9 +13,9 @@ import (
 )
 
 const (
-	modelDir   = "internal/model"
+	modelDir   = "internal/app/model"
 	outputFile = "internal/crud/crud_docs.go"
-	modelPkg   = "tier-up/internal/model"
+	modelPkg   = "tier-up/internal/app/model"
 )
 
 var excludeStructs = map[string]bool{

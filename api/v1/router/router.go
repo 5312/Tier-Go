@@ -2,11 +2,11 @@ package router
 
 import (
 	"tier-up/api/v1/controller"
+	"tier-up/internal/app/middleware/auth"
+	"tier-up/internal/app/middleware/jwt"
+	"tier-up/internal/app/model"
+	"tier-up/internal/app/service"
 	"tier-up/internal/crud"
-	"tier-up/internal/middleware/auth"
-	"tier-up/internal/middleware/jwt"
-	"tier-up/internal/model"
-	"tier-up/internal/service"
 
 	_ "tier-up/docs"
 

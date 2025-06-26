@@ -30,7 +30,7 @@ func InitCasbin(db *gorm.DB) *CasbinService {
 		}
 
 		// 从文件加载模型配置
-		m, err := model.NewModelFromFile("internal/middleware/casbin/model.conf")
+		m, err := model.NewModelFromFile("internal/app/middleware/casbin/model.conf")
 		if err != nil {
 			log.Fatalf("加载Casbin模型配置失败: %v", err)
 		}

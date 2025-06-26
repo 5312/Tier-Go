@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"tier-up/internal/middleware/casbin"
+	"tier-up/internal/app/middleware/casbin"
 
 	"github.com/gin-gonic/gin"
 )

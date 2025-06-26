@@ -2,8 +2,8 @@ package di
 
 import (
 	"tier-up/api/v1/controller"
-	"tier-up/internal/middleware/jwt"
-	"tier-up/internal/service"
+	"tier-up/internal/app/middleware/jwt"
+	"tier-up/internal/app/service"
 
 	"go.uber.org/dig"
 	"gorm.io/gorm"

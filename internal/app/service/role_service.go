@@ -1,8 +1,8 @@
 package service
 
 import (
-	"tier-up/internal/middleware/casbin"
-	"tier-up/internal/model"
+	"tier-up/internal/app/middleware/casbin"
+	"tier-up/internal/app/model"
 
 	"gorm.io/gorm"
 )

@@ -5,10 +5,10 @@ import (
 
 	"tier-up/api/v1/router"
 	_ "tier-up/docs" // 导入swagger文档
+	"tier-up/internal/app/middleware/casbin"
 	"tier-up/internal/config"
 	"tier-up/internal/db"
 	"tier-up/internal/di"
-	"tier-up/internal/middleware/casbin"
 
 	"github.com/gin-gonic/gin"
 )

@@ -3,7 +3,7 @@ package controller
 import (
 	"net/http"
 	"strconv"
-	"tier-up/internal/service"
+	"tier-up/internal/app/service"
 
 	"github.com/gin-gonic/gin"
 )
