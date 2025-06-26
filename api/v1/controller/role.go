@@ -9,13 +9,13 @@ import (
 )
 
 // RoleController 角色控制器
-type Role struct {
+type RoleController struct {
 	RoleService *service.RoleService
 }
 
 // NewRoleController 创建角色控制器
-func NewRole(roleService *service.RoleService) *Role {
-	return &Role{
+func NewRoleController(roleService *service.RoleService) *RoleController {
+	return &RoleController{
 		RoleService: roleService,
 	}
 }
@@ -32,7 +32,7 @@ func NewRole(roleService *service.RoleService) *Role {
 // @Failure 400 {object} map[string]interface{} "无效的角色ID"
 // @Failure 500 {object} map[string]interface{} "获取角色失败"
 // @Router /role/{id} [get]
-func (c *Role) GetRoleByID(ctx *gin.Context) {
+func (c *RoleController) GetRoleByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "无效的角色ID"})
@@ -60,7 +60,7 @@ func (c *Role) GetRoleByID(ctx *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "参数错误"
 // @Failure 500 {object} map[string]interface{} "添加权限失败"
 // @Router /permission [post]
-func (c *Role) AddPermission(ctx *gin.Context) {
+func (c *RoleController) AddPermission(ctx *gin.Context) {
 	var req service.PermissionRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "参数错误: " + err.Error()})
@@ -87,7 +87,7 @@ func (c *Role) AddPermission(ctx *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "参数错误"
 // @Failure 500 {object} map[string]interface{} "移除权限失败"
 // @Router /permission [delete]
-func (c *Role) RemovePermission(ctx *gin.Context) {
+func (c *RoleController) RemovePermission(ctx *gin.Context) {
 	var req service.PermissionRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "参数错误: " + err.Error()})
@@ -114,7 +114,7 @@ func (c *Role) RemovePermission(ctx *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "角色名称不能为空"
 // @Failure 500 {object} map[string]interface{} "获取角色权限失败"
 // @Router /role-permissions/{name} [get]
-func (c *Role) GetPermissions(ctx *gin.Context) {
+func (c *RoleController) GetPermissions(ctx *gin.Context) {
 	roleName := ctx.Param("name")
 	if roleName == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{"code": 400, "message": "角色名称不能为空"})

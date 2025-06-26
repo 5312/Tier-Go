@@ -7,16 +7,16 @@ import (
 	"gorm.io/gorm"
 )
 
+// RoleService 角色服务
+type RoleService struct {
+	DB *gorm.DB
+}
+
 // PermissionRequest 权限请求
 type PermissionRequest struct {
 	Role   string `json:"role" binding:"required"`
 	Path   string `json:"path" binding:"required"`
 	Method string `json:"method" binding:"required"`
-}
-
-// RoleService 角色服务
-type RoleService struct {
-	DB *gorm.DB
 }
 
 // NewRoleService 创建角色服务

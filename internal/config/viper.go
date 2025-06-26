@@ -64,3 +64,9 @@ func (d *Config) InitConfig() {
 	}
 
 }
+
+func Load() Config {
+	var c Config
+	c.InitConfig()
+	return c
+}
