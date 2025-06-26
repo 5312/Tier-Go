@@ -19,17 +19,6 @@ import (
 func MenuCreateDoc(ctx *gin.Context) {}
 
 
-// @Summary 更新 Menu
-// @Description 更新 Menu
-// @Tags Menu
-// @Accept json
-// @Produce json
-// @Param data body model.Menu true "Menu 数据"
-// @Success 200 {object} MenuResponse
-// @Router /menu/update/:id [put]
-func MenuUpdateDoc(ctx *gin.Context) {}
-
-
 // @Summary 删除 Menu
 // @Description 删除 Menu
 // @Tags Menu
@@ -40,14 +29,15 @@ func MenuUpdateDoc(ctx *gin.Context) {}
 func MenuDeleteDoc(ctx *gin.Context) {}
 
 
-// @Summary 分页查询 Menu
-// @Description 分页查询 Menu
+// @Summary 更新 Menu
+// @Description 更新 Menu
 // @Tags Menu
 // @Accept json
 // @Produce json
-// @Success 200 {object} MenuPageResponse
-// @Router /menu/page [get]
-func MenuPageDoc(ctx *gin.Context) {}
+// @Param data body model.Menu true "Menu 数据"
+// @Success 200 {object} MenuResponse
+// @Router /menu/update/:id [put]
+func MenuUpdateDoc(ctx *gin.Context) {}
 
 
 type MenuResponse struct {
@@ -80,6 +70,16 @@ type MenuPageResponse struct {
 func RoleCreateDoc(ctx *gin.Context) {}
 
 
+// @Summary 删除 Role
+// @Description 删除 Role
+// @Tags Role
+// @Accept json
+// @Produce json
+// @Success 200 {object} RoleResponse
+// @Router /role/delete/:id [delete]
+func RoleDeleteDoc(ctx *gin.Context) {}
+
+
 // @Summary 更新 Role
 // @Description 更新 Role
 // @Tags Role
@@ -89,16 +89,6 @@ func RoleCreateDoc(ctx *gin.Context) {}
 // @Success 200 {object} RoleResponse
 // @Router /role/update/:id [put]
 func RoleUpdateDoc(ctx *gin.Context) {}
-
-
-// @Summary 删除 Role
-// @Description 删除 Role
-// @Tags Role
-// @Accept json
-// @Produce json
-// @Success 200 {object} RoleResponse
-// @Router /role/delete/:id [delete]
-func RoleDeleteDoc(ctx *gin.Context) {}
 
 
 // @Summary 分页查询 Role
@@ -141,6 +131,16 @@ type RolePageResponse struct {
 func UserCreateDoc(ctx *gin.Context) {}
 
 
+// @Summary 删除 User
+// @Description 删除 User
+// @Tags User
+// @Accept json
+// @Produce json
+// @Success 200 {object} UserResponse
+// @Router /user/delete/:id [delete]
+func UserDeleteDoc(ctx *gin.Context) {}
+
+
 // @Summary 更新 User
 // @Description 更新 User
 // @Tags User
@@ -150,16 +150,6 @@ func UserCreateDoc(ctx *gin.Context) {}
 // @Success 200 {object} UserResponse
 // @Router /user/update/:id [put]
 func UserUpdateDoc(ctx *gin.Context) {}
-
-
-// @Summary 删除 User
-// @Description 删除 User
-// @Tags User
-// @Accept json
-// @Produce json
-// @Success 200 {object} UserResponse
-// @Router /user/delete/:id [delete]
-func UserDeleteDoc(ctx *gin.Context) {}
 
 
 // @Summary 分页查询 User
