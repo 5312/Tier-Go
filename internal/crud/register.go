@@ -5,11 +5,25 @@ import (
 	"gorm.io/gorm"
 )
 
-func RegisterCrudRoutes[T any](r *gin.RouterGroup, path string, db *gorm.DB) {
-	newCrud := &Crud[T]{DB: db}
-	group := r.Group(path)
-	group.POST("/create", newCrud.Create)
-	group.PUT("/update/:id", newCrud.Update)
-	group.DELETE("/delete/:id", newCrud.Delete)
-	group.GET("/page", newCrud.Page)
+func RegisterCrudRoutes[T any](
+	r *gin.RouterGroup,
+	config RouteConfig,
+	db *gorm.DB,
+) {
+	crud := &Crud[T]{DB: db}
+	group := r.Group(config.Prefix)
+
+	// 按需注册路由
+	if config.Create {
+		group.POST("/create", crud.Create)
+	}
+	if config.Update {
+		group.PUT("/update/:id", crud.Update)
+	}
+	if config.Delete {
+		group.DELETE("/delete/:id", crud.Delete)
+	}
+	if config.Page {
+		group.GET("/page", crud.Page)
+	}
 }

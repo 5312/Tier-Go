@@ -19,6 +19,14 @@ type Crud[T any] struct {
 	DB *gorm.DB
 }
 
+type RouteConfig struct {
+	Prefix string
+	Create bool
+	Update bool
+	Delete bool
+	Page   bool
+}
+
 func (c Crud[T]) Create(ctx *gin.Context) {
 	var entity T
 	if err := ctx.ShouldBindJSON(&entity); err != nil {

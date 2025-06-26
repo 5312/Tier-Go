@@ -37,26 +37,39 @@ func SetupDigRouter(r *gin.Engine, c *dig.Container) error {
 			api.POST("/login", userController.Login)
 		}
 
-		// 需要认证的路由
+		// 需要登录认证的路由
 		authGroup := api.Group("")
 		authGroup.Use(jwtService.JWTAuthMiddleware())
 		{
-			// 用户相关
-			crud.RegisterCrudRoutes[model.User](authGroup, "/user", db)
-			authGroup.GET("/user/info", userController.GetUserInfo)
-			authGroup.PUT("/user/info", userController.UpdateUserInfo)
-			authGroup.PUT("/user/password", userController.ChangePassword)
 
 			// 需要权限验证的路由
 			rbacGroup := authGroup.Group("")
 			rbacGroup.Use(auth.AuthMiddleware())
 			{
+				// 用户相关
+				crud.RegisterCrudRoutes[model.User](authGroup, crud.RouteConfig{
+					Prefix: "/user",
+					Update: true,
+					Delete: true,
+					Page:   true,
+				}, db)
+
+				authGroup.GET("/user/info", userController.GetUserInfo)
+				authGroup.PUT("/user/info", userController.UpdateUserInfo)
+				authGroup.PUT("/user/password", userController.ChangePassword)
+
 				// 用户角色管理
 				rbacGroup.POST("/user/:id/role", userController.AssignRole)
 				rbacGroup.DELETE("/user/:id/role", userController.RemoveRole)
 
 				// 角色管理
-				crud.RegisterCrudRoutes[model.Role](rbacGroup, "/role", db)
+				crud.RegisterCrudRoutes[model.Role](rbacGroup, crud.RouteConfig{
+					Prefix: "/role",
+					Create: true,
+					Update: true,
+					Delete: true,
+					Page:   true,
+				}, db)
 
 				// 权限管理
 				rbacGroup.POST("/permission", roleController.AddPermission)
