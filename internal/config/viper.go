@@ -2,7 +2,9 @@ package config
 
 import (
 	"fmt"
+	"strings"
 
+	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
 )
 
@@ -29,14 +31,21 @@ type Config struct {
 }
 
 func (d *Config) InitConfig() {
+	// 加载 .env 环境变量文件
+	_ = godotenv.Load()
+
 	viper.SetConfigFile("tier-up/config.yaml") // 指定配置文件路径
 	viper.SetConfigName("config")              // 配置文件名称(无扩展名)
 	viper.SetConfigType("yaml")                // 如果配置文件的名称中没有扩展名，则需要配置此项
-	// viper.AddConfigPath("tier-up")           // 查找配置文件所在的路径
-	viper.AddConfigPath(".")    // 还可以在工作目录中查找配置
-	viper.WatchConfig()         //监控配置文件更新
+
+	viper.AddConfigPath(".") // 还可以在工作目录中查找配置
+	viper.WatchConfig()      //监控配置文件更新
+
 	err := viper.ReadInConfig() // 查找并读取配置文件
 
+	viper.AutomaticEnv()                                   // 自动查找环境变量
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_")) // app.port → APP_PORT
+	// viper 会自动映射 同名变量
 	if err != nil { // 处理读取配置文件的错误
 		panic(fmt.Errorf("fatal error config file %v", err))
 	}

@@ -76,7 +76,7 @@ func (c *UserController) Login(ctx *gin.Context) {
 		return
 	}
 
-	token, user, err := c.UserService.Login(req)
+	accessToken, user, err := c.UserService.Login(req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, gin.H{"code": 401, "message": "登录失败: " + err.Error()})
 		return
@@ -86,8 +86,9 @@ func (c *UserController) Login(ctx *gin.Context) {
 		"code":    0,
 		"message": "登录成功",
 		"data": gin.H{
-			"token": token,
-			"user":  user,
+			"accessToken": accessToken,
+			// "refreshToken": refreshToken,
+			"user": user,
 		},
 	})
 }
