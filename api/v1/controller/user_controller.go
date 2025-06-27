@@ -55,7 +55,7 @@ func (c *UserController) Register(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "注册成功", "data": user})
+	ctx.JSON(http.StatusOK, gin.H{"code": 0, "message": "注册成功", "data": user})
 }
 
 // Login 用户登录
