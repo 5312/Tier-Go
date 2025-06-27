@@ -2,14 +2,14 @@ package model
 
 type Menu struct {
 	Base
-	Code      uint    `json:"code"`
+	Code      string  `json:"code"`
 	Name      string  `json:"name" gorm:"not null;"`
 	Path      string  `json:"path" gorm:"not null;comment:api路径;"`
 	Component string  `json:"component" gorm:"not null;comment:组件路径;" `
 	Icon      string  `json:"icon" gorm:"comment:icon图标;"`
 	Note      string  `json:"note" gorm:"comment:备注;"`
 	Type      int     `json:"type"`
-	Status    int8    `json:"status" gorm:"comment:状态:1正常 2禁用;" `
+	Status    *int    `json:"status" gorm:"comment:状态:1正常 2禁用;" `
 	Sort      int     `json:"sort" gorm:"comment:显示顺序;"`
 	ParentId  *uint64 `json:"parent_id" gorm:"column:parent_id"` // 允许为空的父ID
 
@@ -19,14 +19,14 @@ type Menu struct {
 }
 
 type MenuReq struct {
-	Code      uint    `json:"code"`
+	Code      string  `json:"code"`
 	Name      string  `json:"name" `
 	Path      string  `json:"path"  binding:"required" `
-	Component string  `json:"component"  binding:"required" `
+	Component string  `json:"component"`
 	Icon      string  `json:"icon" `
 	Note      string  `json:"note" `
 	Type      int     `json:"type"  binding:"required"`
-	Status    int8    `json:"status"  `
-	Sort      int     `json:"sort"  binding:"required" `
+	Status    *int    `json:"status"  `
+	Sort      *int    `json:"sort"`
 	ParentId  *uint64 `json:"parent_id" `
 }
