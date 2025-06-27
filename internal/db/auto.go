@@ -40,7 +40,7 @@ func AutoMigrate(db *gorm.DB) {
 			Nickname: "超级管理员",
 			Email:    "admin@example.com",
 			Phone:    "12345678901",
-			Avatar:   "https://example.com/avatar.png",
+			Avatar:   "https://fastly.picsum.photos/id/646/640/480.jpg?hmac=4ilW8ljWVx1voBCCves3xCOhrsDC0ag5tBcz4wlK_Ls",
 			Status:   1,
 		}
 		if err := db.Create(&admin).Error; err != nil {
