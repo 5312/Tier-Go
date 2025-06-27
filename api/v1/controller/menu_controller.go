@@ -33,5 +33,5 @@ func (m *MenuController) GetMenuTree(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"code": 200, "data": tree})
+	ctx.JSON(http.StatusOK, gin.H{"code": 0, "data": tree})
 }

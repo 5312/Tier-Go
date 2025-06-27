@@ -38,7 +38,7 @@ func (c Crud[T, CreateDTO]) Create(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "创建失败: " + err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "创建成功", "data": entity})
+	ctx.JSON(http.StatusOK, gin.H{"code": 0, "message": "创建成功", "data": entity})
 }
 
 func (c Crud[T, CreateDTO]) Update(ctx *gin.Context) {
@@ -69,7 +69,7 @@ func (c Crud[T, CreateDTO]) Update(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "更新成功", "data": entity})
+	ctx.JSON(http.StatusOK, gin.H{"code": 0, "message": "更新成功", "data": entity})
 
 }
 
@@ -84,7 +84,7 @@ func (c Crud[T, CreateDTO]) Delete(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "message": "删除失败: " + err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "删除成功"})
+	ctx.JSON(http.StatusOK, gin.H{"code": 0, "message": "删除成功"})
 
 }
 
@@ -106,7 +106,7 @@ func (c Crud[T, CreateDTO]) Page(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{
-		"code":    200,
+		"code":    0,
 		"message": "获取列表成功",
 		"data": gin.H{
 			"page":  page,

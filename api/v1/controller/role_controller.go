@@ -45,7 +45,7 @@ func (c *RoleController) GetRoleByID(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "获取角色成功", "data": role})
+	ctx.JSON(http.StatusOK, gin.H{"code": 0, "message": "获取角色成功", "data": role})
 }
 
 // AddPermission 添加权限
@@ -72,7 +72,7 @@ func (c *RoleController) AddPermission(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "添加权限成功"})
+	ctx.JSON(http.StatusOK, gin.H{"code": 0, "message": "添加权限成功"})
 }
 
 // RemovePermission 移除权限
@@ -99,7 +99,7 @@ func (c *RoleController) RemovePermission(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "移除权限成功"})
+	ctx.JSON(http.StatusOK, gin.H{"code": 0, "message": "移除权限成功"})
 }
 
 // GetPermissions 获取角色权限
@@ -127,7 +127,7 @@ func (c *RoleController) GetPermissions(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{
-		"code":    200,
+		"code":    0,
 		"message": "获取角色权限成功",
 		"data":    permissions,
 	})

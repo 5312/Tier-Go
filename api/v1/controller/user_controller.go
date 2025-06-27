@@ -78,12 +78,12 @@ func (c *UserController) Login(ctx *gin.Context) {
 
 	token, user, err := c.UserService.Login(req)
 	if err != nil {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"code": 401, "message": "登录失败: " + err.Error()})
+		ctx.JSON(http.StatusOK, gin.H{"code": 401, "message": "登录失败: " + err.Error()})
 		return
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"code":    200,
+		"code":    0,
 		"message": "登录成功",
 		"data": gin.H{
 			"token": token,
@@ -117,7 +117,7 @@ func (c *UserController) GetUserInfo(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "获取用户信息成功", "data": user})
+	ctx.JSON(http.StatusOK, gin.H{"code": 0, "message": "获取用户信息成功", "data": user})
 }
 
 // ChangePassword 修改密码
@@ -153,7 +153,7 @@ func (c *UserController) ChangePassword(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "修改密码成功"})
+	ctx.JSON(http.StatusOK, gin.H{"code": 0, "message": "修改密码成功"})
 }
 
 // AssignRole 分配角色
@@ -187,7 +187,7 @@ func (c *UserController) AssignRole(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "分配角色成功"})
+	ctx.JSON(http.StatusOK, gin.H{"code": 0, "message": "分配角色成功"})
 }
 
 // RemoveRole 移除角色
@@ -221,5 +221,5 @@ func (c *UserController) RemoveRole(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "移除角色成功"})
+	ctx.JSON(http.StatusOK, gin.H{"code": 0, "message": "移除角色成功"})
 }
